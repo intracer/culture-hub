@@ -3,7 +3,7 @@ import scala._
 import sbt.Keys._
 import com.typesafe.sbt._
 import play.Project._
-import sbtbuildinfo.Plugin._
+//import sbtbuildinfo.Plugin._
 import eu.delving.templates.Plugin._
 
 object Build extends sbt.Build {
@@ -17,15 +17,16 @@ object Build extends sbt.Build {
   val sipAppVersion = "1.1.8-SNAPSHOT"
   val sipCoreVersion = "1.1.8-SNAPSHOT"
   val schemaRepoVersion = "1.1.8-SNAPSHOT"
-  val playExtensionsVersion = "1.5"
+  val playExtensionsVersion = "1.6-SNAPSHOT"
 
-  val buildScalaVersion = "2.10.1"
+  val buildScalaVersion = "2.10.3"
 
   val delvingReleases = "Delving Library Release Repository" at "http://artifactory.delving.org/artifactory/libs-release"
   val delvingSnapshots = "Delving Library Snapshot Repository" at "http://artifactory.delving.org/artifactory/libs-snapshot"
   val delving = "Delving deployment Repository" at "http://artifactory.delving.org/artifactory/delving"
 
   val commonResolvers = Seq(
+     Resolver.url("SBT Plugins", url("https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns),
     "Delving Library Release Repository" at "http://artifactory.delving.org/artifactory/libs-releasei",
     "Delving Library Snapshot Repository" at "http://artifactory.delving.org/artifactory/libs-snapshot",
      delving
@@ -66,17 +67,17 @@ object Build extends sbt.Build {
     "org.apache.ws.commons"             %    "ws-commons-util"          %   "1.0.1" exclude("junit", "junit")
   )
 
-  val webCore = play.Project("web-core", "1.0-SNAPSHOT", webCoreDependencies, file("web-core/"), settings = Defaults.defaultSettings ++ buildInfoSettings).settings(
+  val webCore = play.Project("web-core", "1.0-SNAPSHOT", webCoreDependencies, file("web-core/"), settings = Defaults.defaultSettings /* ++ buildInfoSettings*/ ).settings(
     resolvers ++= commonResolvers,
     publish := { },
     cultureHub := cultureHubVersion,
     sipApp := sipAppVersion,
     sipCore := sipCoreVersion,
     schemaRepo := schemaRepoVersion,
-    sourceGenerators in Compile <+= buildInfo,
-    sourceGenerators in Test <+= buildInfo,
-    buildInfoKeys := Seq(name, cultureHub, scalaVersion, sbtVersion, sipApp, sipCore, schemaRepo),
-    buildInfoPackage := "eu.delving.culturehub",
+//  sourceGenerators in Compile <+= buildInfo,
+//  sourceGenerators in Test <+= buildInfo,
+//    buildInfoKeys := Seq(name, cultureHub, scalaVersion, sbtVersion, sipApp, sipCore, schemaRepo),
+//    buildInfoPackage := "eu.delving.culturehub",
     scalaVersion in (ThisBuild) := buildScalaVersion
   ).settings(scalarifromSettings :_*)
 
