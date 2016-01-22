@@ -10,7 +10,7 @@ resolvers ++= Seq(
 
 //addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.5.0")
 
-addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.6.0")
+//addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.6.0")
 
 addSbtPlugin("io.bernhardt" %% "groovy-templates-sbt-plugin" % "1.6.4-SNAPSHOT")
 

@@ -1,8 +1,6 @@
-import sbt._
-import scala._
-import sbt.Keys._
-import com.typesafe.sbt._
 import play.Project._
+import sbt.Keys._
+import sbt._
 //import sbtbuildinfo.Plugin._
 import eu.delving.templates.Plugin._
 
@@ -32,7 +30,7 @@ object Build extends sbt.Build {
      delving
    )
 
-  val scalarifromSettings = SbtScalariform.scalariformSettings
+//  val scalarifromSettings = SbtScalariform.scalariformSettings
 
   val appDependencies = Seq(
     "org.apache.amber"          %  "amber-oauth2-authzserver"        % "0.22-incubating",
@@ -79,24 +77,24 @@ object Build extends sbt.Build {
 //    buildInfoKeys := Seq(name, cultureHub, scalaVersion, sbtVersion, sipApp, sipCore, schemaRepo),
 //    buildInfoPackage := "eu.delving.culturehub",
     scalaVersion in (ThisBuild) := buildScalaVersion
-  ).settings(scalarifromSettings :_*)
+  )//.settings(scalarifromSettings :_*)
 
   lazy val search = play.Project("search", "1.0-SNAPSHOT", Seq.empty, path = file("modules/search")).settings(
     resolvers ++= commonResolvers,
     publish := { }
-  ).dependsOn(webCore % "test->test;compile->compile").settings(scalarifromSettings :_*)
+  ).dependsOn(webCore % "test->test;compile->compile")//.settings(scalarifromSettings :_*)
 
   lazy val dataset = play.Project("dataset", "1.0-SNAPSHOT", Seq.empty, path = file("modules/dataset")).settings(
     resolvers ++= commonResolvers,
     publish := { }
-  ).dependsOn(webCore % "test->test;compile->compile", search % "test->test;compile->compile").settings(scalarifromSettings :_*)
+  ).dependsOn(webCore % "test->test;compile->compile", search % "test->test;compile->compile")//.settings(scalarifromSettings :_*)
 
   lazy val dos = play.Project("dos", "1.0-SNAPSHOT", Seq.empty, path = file("modules/dos")).settings(
     resolvers ++= commonResolvers,
     publish := { },
     libraryDependencies += "eu.delving"                %% "play2-extensions"                % playExtensionsVersion,
     routesImport += "extensions.Binders._"
-  ).dependsOn(webCore % "test->test;compile->compile").settings(scalarifromSettings :_*)
+  ).dependsOn(webCore % "test->test;compile->compile")//.settings(scalarifromSettings :_*)
 
 
   // ~~~ dynamic modules, to avoid hard-coded definitions
@@ -115,7 +113,7 @@ object Build extends sbt.Build {
           search % "test->test;compile->compile",
           dataset % "test->test;compile->compile",
           dos % "test->test;compile->compile"
-        ).settings(scalarifromSettings :_*)
+        )//.settings(scalarifromSettings :_*)
   }
 
   def modules(base: File): Seq[Project] = discoverModules(base, "modules") ++ discoverModules(base, "additionalModules")
@@ -130,7 +128,7 @@ object Build extends sbt.Build {
     publish := { },
     libraryDependencies += "eu.delving"                %% "play2-extensions"                % playExtensionsVersion,
     routesImport += "extensions.Binders._"
-  ).dependsOn(webCore % "test->test;compile->compile", dos % "test->test;compile->compile").settings(scalarifromSettings :_*)
+  ).dependsOn(webCore % "test->test;compile->compile", dos % "test->test;compile->compile")//.settings(scalarifromSettings :_*)
 
   def namedSlices(base: File) = play.Project("namedSlices", "1.0-SNAPSHOT", Seq.empty, path = file("modules/namedSlices")).settings(
     resolvers ++= commonResolvers,
@@ -143,7 +141,7 @@ object Build extends sbt.Build {
     search % "test->test;compile->compile",
     dataset % "test->test;compile->compile",
     cms(base) % "test->test;compile->compile"
-  ).settings(scalarifromSettings :_*)
+  )//.settings(scalarifromSettings :_*)
 
 
   def allModules(base: File) = Seq(webCore, search, dataset, dos, cms(base), namedSlices(base)) ++ modules(base)
@@ -188,7 +186,7 @@ object Build extends sbt.Build {
       files.filterNot(file => file.contains("src_managed"))
     }
 
-  ).settings(scalarifromSettings :_*)
+  )//.settings(scalarifromSettings :_*)
    .dependsOn(allModules(base) map { x => x % "test->test;compile->compile"} : _*)
    .aggregate(allModuleReferences(base) : _*)
 
